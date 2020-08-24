@@ -34,11 +34,12 @@ class UserController extends Controller
 
     public function cron(){
 //        update the size of execution to 5 Minutes
+        $lastWeek = date("Y-m-d", strtotime("-7 days"));
         ini_set('max_execution_time', 300);
-        $day = date('w');
-        $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
+//        $day = date('w');
+//        $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
         $state = "SELECT user_id AS user_id ,  COUNT( user_id ) AS count 
-                    FROM visit_user  WHERE date(visit_date) >=  '$week_start'
+                    FROM visit_user  WHERE date(visit_date) >=  '$lastWeek'
                     GROUP BY user_id ";
         $rows = DB::select($state);
         foreach ($rows as $row){
